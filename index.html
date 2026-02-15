@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية أفاويق لتنمية القدرات والتدريب</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .bg-gradient-hero {
+            background: linear-gradient(135deg, rgba(6, 78, 59, 0.97) 0%, rgba(20, 83, 45, 0.93) 100%);
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .section-dot {
+            height: 10px;
+            width: 40px;
+            background: #f97316;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .slider-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 9999px;
+            border: 1px solid #d1fae5;
+            background: #ffffff;
+            color: #065f46;
+            box-shadow: 0 6px 18px rgba(6, 95, 70, 0.08);
+            transition: all 0.2s ease;
+        }
+        .slider-btn:hover {
+            background: #ecfdf5;
+            transform: translateY(-1px);
+        }
+        .two-row-slider {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-rows: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0.5rem;
+            scrollbar-width: thin;
+        }
+        .two-row-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+        .two-row-slider::-webkit-scrollbar-thumb {
+            background: #a7f3d0;
+            border-radius: 9999px;
+        }
+        .slider-item {
+            width: min(50vw, 320px);
+            /* background: #ffffff; */
+            border: 1px solid #d1fae5;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 24px rgba(6, 95, 70, 0.08);
+        }
+        .slider-item img {
+            width: 100%;
+            height: 260px;
+            object-fit: contain;
+            /* background: #f8fafc; */
+            display: block;
+            cursor: zoom-in;
+        }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.86);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 70;
+            padding: 1rem;
+        }
+        .lightbox.open {
+            display: flex;
+        }
+        .lightbox-img {
+            max-width: min(92vw, 1100px);
+            max-height: 88vh;
+            object-fit: contain;
+            border-radius: 1rem;
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            width: 42px;
+            height: 42px;
+            border: 0;
+            border-radius: 9999px;
+            background: #ffffff;
+            color: #065f46;
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .slider-item {
+                width: min(84vw, 300px);
+            }
+            .slider-item img {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Navigation -->
+     <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-lg border-b border-gray-100 shadow-sm overflow-visible">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center overflow-visible">
+            <!-- Logo Section Improved -->
+            <div class="relative flex items-center gap-4 group cursor-pointer pr-24">
+                <div class="absolute -top-10 right-0">
+                    <div class="absolute inset-0 bg-emerald-500/10 rounded-full blur-lg group-hover:bg-emerald-500/20 transition-all"></div>
+                    <img src="img/download.png" alt="أفاويق" class="w-40 h-24 object-contain relative z-10 logo-glow transform group-hover:scale-110 transition-transform">
+                </div>
+                <!-- <div class="flex flex-col">
+                    <h1 class="text-2xl font-black text-emerald-900 tracking-tight leading-none">أفاويق</h1>
+                    <span class="text-[11px] text-orange-600 font-extrabold tracking-widest mt-1 uppercase">Academy For Training</span>
+                </div> -->
+            </div>
+
+            <!-- Menu -->
+            <div class="hidden md:flex gap-10 font-bold text-gray-600 text-sm">
+                <a href="#about" class="hover:text-emerald-700 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">من نحن</a>
+                <a href="#services" class="hover:text-emerald-700 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">خدماتنا</a>
+                <a href="#standards" class="hover:text-emerald-700 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">معاييرنا</a>
+                <a href="#contact" class="hover:text-emerald-700 transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:right-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">اتصل بنا</a>
+            </div>
+
+            <!-- Call Action -->
+            <div class="flex items-center gap-4">
+                <a href="tel:0798825196" class="hidden sm:flex items-center gap-2 bg-emerald-900 text-white px-5 py-2.5 rounded-full font-bold shadow-md hover:bg-emerald-800 transition-all">
+                    <i class="fas fa-phone-alt text-orange-400 text-sm"></i>
+                    <span>0798825196</span>
+                </a>
+                <button class="md:hidden text-emerald-900 text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center bg-gradient-hero text-white pt-20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-orange-400 font-bold mb-4 tracking-widest uppercase">مؤسسة تدريبية وطنية</h2>
+                <h1 class="text-4xl md:text-5xl font-black leading-tight mb-6 text-white">
+                    أكاديمية أفاويق<br>
+                    <span >لتنمية القدرات والتدريب</span>
+                </h1>
+                <p class="text-xl text-gray-200 mb-8 leading-relaxed">
+                    نسعى لتقديم برامج نوعية تسهم في تمكين الكوادر الوطنية، وبناء قدرات الأفراد والمؤسسات بما يواكب رؤية المملكة 2030.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#services" class="bg-white text-emerald-900 px-8 py-3 rounded-xl font-bold hover:bg-orange-500 hover:text-white transition-all">اكتشف برامجنا</a>
+                    <a href="#contact" class="border border-white/30 px-8 py-3 rounded-xl font-bold hover:bg-white/10">تواصل معنا</a>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <div class="relative">
+                    <div class="absolute -top-4 -right-4 w-full h-full border-2 border-orange-500 rounded-[2rem]"></div>
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Training" class="rounded-[2rem] shadow-2xl relative z-10">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introduction Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <span class="section-dot mb-4"></span>
+            <h2 class="text-3xl font-black text-emerald-950 mb-8">مقدمة | Introduction</h2>
+            <p class="text-xl text-gray-600 leading-loose">
+                تُعد أكاديمية أفاويق لتنمية القدرات والتدريب مؤسسة تدريبية وطنية، تم تسجيلها رسمياً مؤخراً لدى الجهات المعنية، على الرغم من امتداد أنشطتها ومبادراتها في مجال التدريب والتطوير لعدة سنوات. سعت الأكاديمية منذ بدايتها إلى تقديم برامج نوعية تهدف لتمكين الكوادر الوطنية وبناء قدرات الأفراد والمؤسسات.
+            </p>
+        </div>
+    </section>
+  <section class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="trainer-card rounded-[3rem] p-8 md:p-12 border border-emerald-100 flex flex-col md:flex-row items-center gap-12 shadow-sm">
+                <div class="w-64 h-64 md:w-80 md:h-80 relative flex-shrink-0">
+                    <div class="absolute inset-0 bg-orange-500 rounded-[2rem] rotate-6"></div>
+                    <!-- Trainer Image -->
+                    <div class="absolute inset-0 bg-gray-200 rounded-[2rem] overflow-hidden shadow-xl border-4 border-white">
+                        <img src="img/amani.jpeg" alt="أماني طه" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="flex-grow">
+                    <span class="text-orange-600 font-black text-sm uppercase tracking-widest mb-4 block">القيادة التدريبية</span>
+                    <h2 class="text-4xl font-black text-emerald-950 mb-4 tracking-tight">المدربة أماني طه</h2>
+                    <p class="text-xl text-gray-600 leading-relaxed mb-6 font-medium italic">
+                        "رؤيتنا تتجاوز مجرد التدريب؛ نحن نسعى لبناء مهارات حقيقية تصمد أمام تحديات سوق العمل، مع الالتزام بأعلى معايير الجودة العالمية والوطنية."
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-white px-4 py-2 rounded-xl shadow-sm border border-emerald-50 flex items-center gap-2">
+                            <i class="fas fa-check-circle text-emerald-600"></i>
+                            <span class="text-sm font-bold text-emerald-900">خبرة تدريبية واسعة</span>
+                        </div>
+                        <div class="bg-white px-4 py-2 rounded-xl shadow-sm border border-emerald-50 flex items-center gap-2">
+                            <i class="fas fa-graduation-cap text-emerald-600"></i>
+                            <span class="text-sm font-bold text-emerald-900">قيادة أكاديمية</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diplomas & Courses Slider Section -->
+    <section id="diplomas" class="py-24 bg-emerald-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="mb-4 flex justify-center"><span class="section-dot"></span></div>
+                <h2 class="text-4xl font-black text-emerald-950 mb-4">معرض الدورات</h2>
+                <p class="text-gray-600">عرض الصور حسب التصنيف</p>
+            </div>
+
+            <div class="space-y-14">
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="text-2xl font-black text-emerald-950">كورسات معتمدة من الجامعه الاردنية</h3>
+                            <!-- <p class="text-gray-600 font-semibold mt-2">هاي كورسات معتمدة من الجامعه الاردنيه</p> -->
+                        </div>
+                        <div class="flex gap-3">
+                            <button type="button" class="slider-btn" data-target="jo-slider" data-dir="next" aria-label="التالي">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <button type="button" class="slider-btn" data-target="jo-slider" data-dir="prev" aria-label="السابق">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="jo-slider" class="two-row-slider ">
+                        <figure class="slider-item">
+                            <img src="img/jo1.jpeg" alt="صورة جامعة أردنية 1">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo2.jpeg" alt="صورة جامعة أردنية 2">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo3.jpeg" alt="صورة جامعة أردنية 3">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo4.jpeg" alt="صورة جامعة أردنية 4">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo5.jpeg" alt="صورة جامعة أردنية 5">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo6.jpeg" alt="صورة جامعة أردنية 6">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo7.jpeg" alt="صورة جامعة أردنية 7">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo8.jpeg" alt="صورة جامعة أردنية 8">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo9.jpeg" alt="صورة جامعة أردنية 9">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo10.jpeg" alt="صورة جامعة أردنية 10">
+                        </figure>
+                        <figure class="slider-item">
+                            <img src="img/jo11.jpeg" alt="صورة جامعة أردنية 11">
+                        </figure>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-black text-emerald-950">كورسات الأكاديمية</h3>
+                        <div class="flex gap-3">
+                            <button type="button" class="slider-btn" data-target="academy-slider" data-dir="next" aria-label="التالي">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <button type="button" class="slider-btn" data-target="academy-slider" data-dir="prev" aria-label="السابق">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="academy-slider" class="two-row-slider ">
+                        <figure class="slider-item"><img src="img/1.jpeg" alt="كورس أكاديمية 1"></figure>
+                        <figure class="slider-item"><img src="img/2.jpeg" alt="كورس أكاديمية 2"></figure>
+                        <figure class="slider-item"><img src="img/3.jpeg" alt="كورس أكاديمية 3"></figure>
+                        <figure class="slider-item"><img src="img/4.jpeg" alt="كورس أكاديمية 4"></figure>
+                        <figure class="slider-item"><img src="img/5.jpeg" alt="كورس أكاديمية 5"></figure>
+                        <figure class="slider-item"><img src="img/6.jpeg" alt="كورس أكاديمية 6"></figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Vision & Mission -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+            <div class="bg-emerald-900 text-white p-6 rounded-[1rem] shadow-xl">
+                <i class="fas fa-eye text-3xl text-orange-400 mb-6"></i>
+                <h3 class="text-2xl font-black mb-4 uppercase">رؤيتنا | Our Vision</h3>
+                <p class="text-emerald-50/80 leading-relaxed italic text-lg">
+                    "أن تكون أكاديمية أفاويق رائدة ومتميزة في مجال التدريب وتنمية القدرات، ومركزاً وطنياً معتمداً يسهم بفعالية في تطوير رأس المال البشري ورفع جودة الأداء المهني."
+                </p>
+            </div>
+            <div class="bg-white border border-emerald-100 p-6 rounded-[1rem] shadow-xl">
+                <i class="fas fa-bullseye text-3xl text-emerald-700 mb-6"></i>
+                <h3 class="text-2xl font-black mb-4 uppercase text-emerald-950">رسالتنا | Our Mission</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">
+                    تقديم برامج تدريبية معتمدة، مصممة وفق أعلى معايير الجودة، تواكب متطلبات سوق العمل، وتسهم في تمكين المتدربين من اكتساب المهارات والمعارف اللازمة لتحقيق التميز المهني.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (الموقع الاستراتيجي، الخدمات، الخبرة) -->
+    <section class="py-20 bg-emerald-50">
+        <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <!-- موقع استراتيجي -->
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-sm text-center border-b-8 border-orange-500 card-hover">
+                <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-map-marked-alt text-3xl"></i>
+                </div>
+                <h4 class="text-2xl font-black text-emerald-950 mb-4 leading-tight">موقع<br>استراتيجي</h4>
+                <p class="text-gray-600 leading-relaxed font-semibold">
+                    يقع مركزنا في شارع الجامعة<br>الأردنية-الجبيهة
+                </p>
+                <a href="https://maps.google.com/?q=32.020954,35.861469" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 bg-orange-500 text-white px-5 py-2.5 rounded-full text-sm font-black hover:bg-orange-600 transition-colors">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>افتح الموقع على الخريطة</span>
+                </a>
+            </div>
+
+            <!-- خدمات متكاملة -->
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-sm text-center border-b-8 border-emerald-800 card-hover">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-concierge-bell text-3xl"></i>
+                </div>
+                <h4 class="text-2xl font-black text-emerald-950 mb-4 leading-tight">خدمــــــات<br>متكاملة</h4>
+                <p class="text-gray-600 leading-relaxed font-semibold">
+                    نقدم مجموعة شاملة من<br>خدمات الدورات والدبلومات<br>واﻻستشارات والتسويق
+                </p>
+            </div>
+
+            <!-- خبرة واحترافية -->
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-sm text-center border-b-8 border-orange-500 card-hover">
+                <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-user-tie text-3xl"></i>
+                </div>
+                <h4 class="text-2xl font-black text-emerald-950 mb-4 leading-tight">خبــــــــــــــرة<br>واحترافية</h4>
+                <p class="text-gray-600 leading-relaxed font-semibold">
+                    فريقنا من اﻷساتذة ذوي<br>الخبرة باستخدام التقنيات<br>التدريبية الحديثة
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black text-emerald-950 mb-4">خدماتنا</h2>
+                <div class="w-20 h-1 bg-orange-500 mx-auto"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card bg-emerald-50 p-8 rounded-3xl text-center">
+                    <i class="fas fa-user-graduate text-4xl text-emerald-800 mb-6"></i>
+                    <h4 class="font-black text-xl mb-4">دبلومات مهنية</h4>
+                    <p class="text-gray-600 text-sm">برامج تدريبية متخصصة تهدف إلى تزويد المتدربين بمهارات عملية ومعرفة متعمقة.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="service-card bg-orange-50 p-8 rounded-3xl text-center">
+                    <i class="fas fa-chalkboard-teacher text-4xl text-orange-600 mb-6"></i>
+                    <h4 class="font-black text-xl mb-4">دورات</h4>
+                    <p class="text-gray-600 text-sm">برامج قصيرة المدى تركز على تطوير مهارات معينة في مواضيع حيوية ومتخصصة.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="service-card bg-emerald-50 p-8 rounded-3xl text-center">
+                    <i class="fas fa-briefcase text-4xl text-emerald-800 mb-6"></i>
+                    <h4 class="font-black text-xl mb-4">استشارات إدارية</h4>
+                    <p class="text-gray-600 text-sm">تقديم المشورة والحلول للمؤسسات لتطوير استراتيجياتها مع نخبة من الدكاترة.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="service-card bg-orange-50 p-8 rounded-3xl text-center">
+                    <i class="fas fa-bullhorn text-4xl text-orange-600 mb-6"></i>
+                    <h4 class="font-black text-xl mb-4">تسويق</h4>
+                    <p class="text-gray-600 text-sm">وضع خطط واستراتيجيات تسويقية فعالة للبرامج التدريبية والمعرفية.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us & Cadres -->
+    <section class="py-20 bg-emerald-900 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-3xl font-black mb-8">كوادرنا | Our Cadres</h2>
+                    <p class="text-emerald-100 text-lg leading-relaxed mb-10">
+                        للأكاديمية كوادرها التدريبية المؤهلة ذات الخبرة العالية في تنفيذ الدبلومات والدورات، مما يضمن جودة المحتوى التدريبي المقدم وتطبيقه العملي.
+                    </p>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                            <i class="fas fa-star text-orange-400"></i>
+                            <span class="font-bold">فريق من الأساتذة ذوي الخبرة والاحترافية.</span>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                            <i class="fas fa-map-pin text-orange-400"></i>
+                            <span class="font-bold">موقع استراتيجي في شارع الجامعة الأردنية - الجبيهة.</span>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl">
+                            <i class="fas fa-check-circle text-orange-400"></i>
+                            <span class="font-bold">خدمات تدريبية وتسويقية متكاملة.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <div class="h-40 bg-orange-500 rounded-3xl flex flex-col items-center justify-center text-center p-4">
+                            <span class="text-3xl font-black">120+</span>
+                            <span class="text-xs font-bold uppercase">مدرب خبير</span>
+                        </div>
+                        <div class="h-64 bg-emerald-700 rounded-3xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover opacity-50" alt="team">
+                        </div>
+                    </div>
+                    <div class="pt-12 space-y-4">
+                        <div class="h-64 bg-emerald-800 rounded-3xl overflow-hidden">
+                             <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover opacity-50" alt="training">
+                        </div>
+                        <div class="h-40 bg-white text-emerald-950 rounded-3xl flex flex-col items-center justify-center text-center p-4">
+                            <span class="text-3xl font-black">100%</span>
+                            <span class="text-xs font-bold uppercase">جودة معتمدة</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Standards Section -->
+    <section id="standards" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black text-emerald-950">معاييرنا | Our Standards</h2>
+                <p class="text-gray-500 mt-2">نحرص على الجودة والموثوقية من خلال:</p>
+            </div>
+            <div class="grid gap-4">
+                <div class="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl border-r-4 border-orange-500">
+                    <i class="fas fa-shield-alt text-emerald-700"></i>
+                    <p class="font-bold">الاعتماد من الجهات التدريبية والتنظيمية الوطنية.</p>
+                </div>
+                <div class="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl border-r-4 border-orange-500">
+                    <i class="fas fa-file-contract text-emerald-700"></i>
+                    <p class="font-bold">الالتزام بمعايير الإطار الوطني للمؤهلات.</p>
+                </div>
+                <div class="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl border-r-4 border-orange-500">
+                    <i class="fas fa-lightbulb text-emerald-700"></i>
+                    <p class="font-bold">استخدام أساليب تدريبية تفاعلية ومبتكرة.</p>
+                </div>
+                <div class="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl border-r-4 border-orange-500">
+                    <i class="fas fa-user-check text-emerald-700"></i>
+                    <p class="font-bold">الاعتماد على مدربين مؤهلين ومعتمدين.</p>
+                </div>
+                <div class="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl border-r-4 border-orange-500">
+                    <i class="fas fa-sync text-emerald-700"></i>
+                    <p class="font-bold">التقييم المستمر لمخرجات التدريب وضمان التحسين.</p>
+                </div>
+                <div class="flex items-center gap-4 p-5 bg-gray-50 rounded-2xl border-r-4 border-orange-500">
+                    <i class="fas fa-laptop-code text-emerald-700"></i>
+                    <p class="font-bold">توفير بيئة تعليمية تُمكّن من التطبيق العملي الفعّال.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="map" class="py-20 bg-emerald-50">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-black text-emerald-950 mb-3">موقعنا على الخريطة</h2>
+                <p class="text-gray-600 font-semibold">الجبيهة - شارع الجامعة الأردنية - عمان</p>
+            </div>
+            <div class="bg-white rounded-[2rem] border border-emerald-100 shadow-lg p-4 md:p-6">
+                <div class="rounded-[1.5rem] overflow-hidden border border-emerald-100">
+                    <iframe
+                        src="https://maps.google.com/maps?q=32.020954,35.861469&z=17&output=embed"
+                        width="100%"
+                        height="420"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="موقع الأكاديمية على الخريطة">
+                    </iframe>
+                </div>
+                <div class="mt-5 text-center">
+                    <a href="https://maps.google.com/?q=32.020954,35.861469" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-emerald-900 text-white px-6 py-3 rounded-full font-black hover:bg-emerald-800 transition-colors">
+                        <i class="fas fa-location-arrow text-orange-400"></i>
+                        <span>فتح الاتجاهات على Google Maps</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact Section -->
+    <footer id="contact" class="bg-emerald-950 text-white pt-20 pb-10 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="text-3xl font-black mb-6">أكاديمية أفاويق</h3>
+                <p class="text-emerald-100/60 leading-relaxed mb-6">نحو جيل متمكن مهنياً ووظيفياً بما يواكب تطلعات التنمية الشاملة.</p>
+                <div class="space-y-2">
+                    <p class="text-orange-400 font-bold">المدربة المسؤولة:</p>
+                    <p class="text-xl font-bold uppercase tracking-wide">Trainer Amani Taha</p>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 underline decoration-orange-500 underline-offset-8">تواصل معنا</h4>
+                <ul class="space-y-4 text-emerald-50/80">
+                    <li class="flex items-center gap-4 hover:text-white transition-colors">
+                        <i class="fas fa-phone text-orange-500"></i>
+                        <a href="tel:0798825196">0798825196</a>
+                    </li>
+                    <li class="flex items-center gap-4 hover:text-white transition-colors">
+                        <i class="fas fa-envelope text-orange-500"></i>
+                        <a href="mailto:AFAWEEQ@GMAIL.COM">AFAWEEQ@GMAIL.COM</a>
+                    </li>
+                    <li class="flex items-start gap-4 hover:text-white transition-colors">
+                        <i class="fas fa-map-marker-alt text-orange-500 mt-1"></i>
+                        <a href="https://maps.google.com/?q=32.020954,35.861469" target="_blank" rel="noopener noreferrer" class="underline decoration-orange-500/70 underline-offset-4 hover:text-orange-300">
+                            الجبيهة - شارع الجامعة الأردنية - عمان
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6 underline decoration-orange-500 underline-offset-8">روابط سريعة</h4>
+                <div class="grid grid-cols-2 gap-4 text-emerald-50/60">
+                    <a href="#about" class="hover:text-white">من نحن</a>
+                    <a href="#services" class="hover:text-white">خدماتنا</a>
+                    <a href="#standards" class="hover:text-white">معاييرنا</a>
+                    <a href="#home" class="hover:text-white">الرئيسية</a>
+                </div>
+                <div class="mt-8 flex gap-4">
+                    <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-orange-500 cursor-pointer transition-all"><i class="fab fa-facebook-f"></i></div>
+                    <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-orange-500 cursor-pointer transition-all"><i class="fab fa-instagram"></i></div>
+                    <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-orange-500 cursor-pointer transition-all"><i class="fab fa-linkedin-in"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-5xl mx-auto pt-4 border-t border-white/5 text-center text-xs text-white/30 uppercase tracking-[0.3em]">
+            Copyright &copy; 2026 Afawaeeq Academy. Built with passion.
+        </div>
+        <div class="mt-4 text-center text-xs text-white/60">
+            <a href="team.html" class="hover:text-orange-400 transition-colors" onclick="window.open('team.html','team','width=900,height=700,scrollbars=yes'); return false;">develop by NextVerse</a>
+        </div>
+    </footer>
+
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+        <button id="lightbox-close" class="lightbox-close" aria-label="إغلاق الصورة">&times;</button>
+        <img id="lightbox-img" class="lightbox-img" src="" alt="صورة مكبرة">
+    </div>
+
+    <script>
+        const sliderButtons = document.querySelectorAll(".slider-btn");
+        sliderButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const targetId = btn.dataset.target;
+                const direction = btn.dataset.dir;
+                const slider = document.getElementById(targetId);
+                if (!slider) return;
+                const step = 320;
+                const amount = direction === "next" ? step : -step;
+                slider.scrollBy({ left: amount, behavior: "smooth" });
+            });
+        });
+
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const lightboxClose = document.getElementById("lightbox-close");
+        const sliderImages = document.querySelectorAll(".slider-item img");
+
+        const closeLightbox = () => {
+            lightbox.classList.remove("open");
+            lightbox.setAttribute("aria-hidden", "true");
+            lightboxImg.src = "";
+        };
+
+        sliderImages.forEach((img) => {
+            img.addEventListener("click", () => {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt || "صورة مكبرة";
+                lightbox.classList.add("open");
+                lightbox.setAttribute("aria-hidden", "false");
+            });
+        });
+
+        lightboxClose.addEventListener("click", closeLightbox);
+        lightbox.addEventListener("click", (event) => {
+            if (event.target === lightbox) closeLightbox();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closeLightbox();
+        });
+    </script>
+
+</body>
+</html>
